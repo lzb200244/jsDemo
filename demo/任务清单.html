@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input id="task" type="text" placeholder="添加任务">
+    <button onclick="addTask()">add</button>
+    <button onclick="deleteAllTask()">清空</button>
+
+    <ul id="tasks">
+
+    </ul>
+</div>
+<script>
+    let tasks = []
+    const addTaskDom = document.getElementById("task")
+    const tasksDom = document.getElementById("tasks")
+
+    //添加
+    function add(value) {
+        addTaskDom.value = ''
+        //放入任务
+        tasks.push(value)
+        renderTask()
+    }
+
+    //添加任务
+    function addTask() {
+        addTaskDom.value && add(addTaskDom.value)
+    }
+
+    //渲染任务
+    function renderTask() {
+        //初始化任务
+        tasksDom.innerText = ''
+        //渲染任务
+        tasks.forEach((item, index) => {
+            const li = document.createElement("li")
+            const span = document.createElement("span")
+            const button = document.createElement("button")
+            button.innerText = "delete"
+            // button.value = '' + index //解决addEvent传参数
+            span.innerText = item
+            button.addEventListener('click', deleteTask.bind(window, index), false)
+            li.append(span)
+            li.append(button)
+            tasksDom.append(li)
+        })
+    }
+
+    //删除任务
+    function deleteTask(index) {
+
+        if (tasks.length === 0) {
+            return
+        }
+        tasks.splice(index, 1)
+        //渲染任务
+        renderTask()
+    }
+
+    function deleteAllTask(event) {
+        if (tasks.length === 0) {
+            return
+        }
+        tasks = []
+        //渲染任务
+        renderTask()
+    }
+</script>
+</body>
+</html>
