@@ -38,9 +38,11 @@
                 const valid = {phone: phone.value, now: new Date().getTime()}
                 localStorage.setItem("valid", JSON.stringify(valid))
             }
-            code.innerText = --count
+            code.innerText = String(--count)
+            code.setAttribute('disabled', 'disabled')
             if (count === 0) {
                 code.innerText = "重新获取验证码"
+                code.removeAttribute('disabled')
                 //count复原
                 count = 60
                 //清除定时器

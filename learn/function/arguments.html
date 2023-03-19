@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="comment__area"></div>
+</body>
+<script>
+
+    const comments = [
+        {
+            id: 1,
+            author: "John Doe",
+            date: "2022-03-18",
+            content: "这是第一条评论的示例文本。",
+
+        },
+        {
+            id: 2,
+            author: "Jane Smith",
+            date: "2022-03-19",
+            content: "你是谁。",
+        },
+        {
+            id: 3,
+            author: "Jane Smith",
+            parentId: 2,
+            date: "2022-03-19",
+            content: "我是你哥哥。",
+        },
+        {
+            id: 5,
+            author: "Jane Smith",
+            parentId: 3,
+            date: "2022-03-19",
+            content: "你真的是他哥哥?。",
+        },
+    ];
+
+    function makeComment(comment) {
+        const p = document.createElement("p")
+        p.setAttribute("id", `comment__${comment.id}`)
+        const author = document.createElement("span")
+        p.textContent = comment.content
+        author.textContent = comment.author
+        p.appendChild(author)
+        //如果存在父找到父id添加到里面
+        if (comment.parentId) {
+            p.style.marginLeft='50px'
+            const parent = document.getElementById(`comment__${comment.parentId}`)
+            parent.appendChild(p)
+
+        } else {
+
+            document.getElementById('comment__area').appendChild(p)
+        }
+
+    }
+
+    comments.forEach(comment => {
+        //    装容器的标签
+        makeComment(comment)
+
+    })
+</script>
+</html>

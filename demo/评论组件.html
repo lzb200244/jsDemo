@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="comment__area"></div>
+<div id="opt">
+    <input id='input' type="text" placeholder="添加评论">
+    <button onclick="addComment()">添加</button>
+</div>
+
+</body>
+<script>
+    let replayId
+    const comments = [
+        {
+            id: 1,
+            author: "John Doe",
+            date: "2022-03-18",
+            content: "这是第一条评论的示例文本。",
+
+        },
+        {
+            id: 2,
+            author: "Jane Smith",
+            date: "2022-03-19",
+            content: "你是谁。",
+        },
+        {
+            id: 3,
+            author: "Jane Smith",
+            parentId: 2,
+            date: "2022-03-19",
+            content: "我是你哥哥。",
+        },
+        {
+            id: 5,
+            author: "Jane Smith",
+            parentId: 3,
+            date: "2022-03-19",
+            content: "你真的是他哥哥?。",
+        },
+    ];
+    const input = document.getElementById('input')
+    const opt = document.getElementById('opt')
+    const span = document.createElement("span")
+
+    function addComment() {
+        const content = input.value
+        const comment = {
+            content,
+            id: Math.ceil(Math.random() * 100),
+        }
+        if (replayId) {
+            comment['parentId'] = replayId
+        }
+        replayId = 0
+
+        makeComment(comment)
+    }
+
+    function replay() {
+        //回复
+        let parentId = this.getAttribute('id').split("__")[1]
+        replayId = parentId
+        input.value = ''
+        //删除原来回复
+        span.remove()
+        input.focus()
+        opt.append(span.textContent = `@${parentId}`)
+    }
+
+    function makeComment(comment) {
+        const p = document.createElement("p")
+        const author = document.createElement("span")
+        const button = document.createElement('button')
+
+        button.textContent = '回复'
+
+        button.addEventListener('click', replay.bind(p))
+        author.textContent = comment.author
+        p.setAttribute("id", `comment__${comment.id}`)
+        p.textContent = comment.content
+        p.appendChild(author)
+        p.appendChild(button)
+
+        //如果存在父找到父id添加到里面
+        console.log(comment.parentId)
+        if (comment.parentId) {
+            p.style.marginLeft = '50px'
+            const parent = document.getElementById(`comment__${comment.parentId}`)
+            parent.append(p)
+        } else {
+
+            document.getElementById('comment__area').appendChild(p)
+        }
+
+    }
+
+    comments.forEach(comment => {
+        //    装容器的标签
+        makeComment(comment)
+
+    })
+</script>
+</html>

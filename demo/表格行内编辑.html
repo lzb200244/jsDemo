@@ -8,6 +8,10 @@
             width: 150px;
 
         }
+
+        td {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -49,24 +53,25 @@
                 //当前进入编辑状态
                 status = true
                 const target = event.target
-                const value = target.innerText
-                target.style.display = 'none';
                 const input = document.createElement("input")
-                input.value = value
+                target.style.display = 'none';
+                input.value = target.innerText
                 target.parentElement.append(input)
                 event.stopPropagation()
             }
         })
     })
+
     document.addEventListener("click", function () {
         //    全局监听
+
         //如果status===true就是说明当前有编辑页面
         if (status && event.target.tagName !== "INPUT") {
             //    找到里面唯一的input
             let input = tbody.querySelector("input")
             // input.
             let span = input.parentElement.querySelector('span')
-            span.innerText = input.value
+            span.innerText = input.value.trim()
             span.style.display = 'block'
             //删除dom
             input.remove()
