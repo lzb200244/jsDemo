@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>懒加载</title>
+    <style>
+        #app {
+            width: 500px;
+            height: 300px;
+            margin: 0 auto;
+            background: #fff;
+            overflow-y: auto;
+
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+</div>
+</body>
+<script>
+    const app = document.getElementById("app")
+
+    const clientHeight = app.clientHeight
+    for (let i = 1; i < 100; i++) {
+        const p = document.createElement("p")
+        p.textContent = i
+        p.style.height = "30px"
+        p.dataset["src"] = String(i)
+        p.style.background = '#d1d1d1'
+        app.appendChild(p)
+    }
+    const ps = document.querySelectorAll("p")
+    app.onscroll = () => debounce(lazyLoad)(ps)
+
+    function lazyLoad(pss) {
+        const scrollTop = app.scrollTop
+        pss.forEach(item => {
+            const offsetTop = item.offsetTop //距离可视范围的高度
+            //offsetTop <= scrollTop + clientHeight 如果滚动条+客户端大小大于元素的偏移高度就说明1已经显示在可视范围了
+            if (offsetTop <= scrollTop + clientHeight) {
+                item.dataset['test'] = '2121'
+            }
+        })
+    }
+
+    function debounce(fn, delay = 1000) {
+        let timer = null;
+        return (...args) => {
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+            timer = setTimeout(() => {
+                fn.apply(this, args);
+            }, delay);
+        }
+    }
+
+</script>
+
+</html>

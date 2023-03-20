@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+
+</style>
+<body>
+<input type="text" id="search-input">
+<p id="content">这是一段包含关键词的文本。</p>
+
+</body>
+
+<script>
+    const searchInput = document.getElementById('search-input');
+    const content = document.getElementById('content');
+
+    searchInput.addEventListener('input', () => {
+        const keyword = searchInput.value.trim();
+        if (keyword.length === 0) {
+            content.innerHTML = content.innerText;
+            return;
+        }
+        const regex = new RegExp(keyword, 'gi'); //全局不区分大小写
+        const matches = content.innerText.match(regex);
+        if (matches) {
+            content.innerHTML = content.innerText.replace(regex, `<mark>${keyword}</mark>`);
+        } else {
+            content.innerHTML = content.innerText;
+        }
+    });
+
+</script>
+</html>

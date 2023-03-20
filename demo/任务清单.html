@@ -9,7 +9,6 @@
     <input id="task" type="text" placeholder="添加任务">
     <button onclick="addTask()">add</button>
     <button onclick="deleteAllTask()">清空</button>
-
     <ul id="tasks">
 
     </ul>
@@ -29,6 +28,7 @@
 
     //添加任务
     function addTask() {
+        //如果addTaskDom.value有值就执行后面的
         addTaskDom.value && add(addTaskDom.value)
     }
 
@@ -42,7 +42,6 @@
             const span = document.createElement("span")
             const button = document.createElement("button")
             button.innerText = "delete"
-            // button.value = '' + index //解决addEvent传参数
             span.innerText = item
             button.addEventListener('click', deleteTask.bind(window, index), false)
             li.append(span)
@@ -57,11 +56,13 @@
         if (tasks.length === 0) {
             return
         }
+        //找到列表点击的索引并且去除
         tasks.splice(index, 1)
         //渲染任务
         renderTask()
     }
 
+    //删除所有任务
     function deleteAllTask(event) {
         if (tasks.length === 0) {
             return

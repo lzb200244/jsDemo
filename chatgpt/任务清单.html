@@ -1,0 +1,65 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>任务清单</title>
+    <script>
+        // 创建一个空数组，用于存储任务
+        let tasks = [];
+
+        function addTask() {
+            // 获取输入框中的文本
+            let task = document.getElementById("taskInput").value;
+
+            // 将任务添加到数组中
+            tasks.push(task);
+
+            // 清空输入框
+            document.getElementById("taskInput").value = "";
+
+            // 更新任务列表
+            updateTaskList();
+        }
+
+        function deleteTask(index) {
+            // 从数组中删除指定的任务
+            tasks.splice(index, 1);
+
+            // 更新任务列表
+            updateTaskList();
+        }
+
+        function updateTaskList() {
+            // 获取任务列表的 HTML 元素
+            let taskList = document.getElementById("taskList");
+
+            // 清空任务列表
+            taskList.innerHTML = "";
+
+            // 遍历任务数组，将每个任务添加到任务列表中
+            tasks.forEach(function (task, index) {
+                let li = document.createElement("li");
+                li.innerText = task;
+
+                let deleteButton = document.createElement("button");
+                deleteButton.innerText = "删除";
+                deleteButton.onclick = function () {
+                    deleteTask(index);
+                };
+
+                li.appendChild(deleteButton);
+                taskList.appendChild(li);
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>任务清单</h1>
+
+<input type="text" id="taskInput">
+<button onclick="addTask()">添加任务</button>
+
+<h2>任务列表</h2>
+<ul id="taskList"></ul>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="name">
+<input type="text" id="res">
+</body>
+<script>
+
+    const resEle = document.querySelector("#res");
+
+    const inputEle = document.querySelector("#name");
+
+    function changeOutputVal(value) {
+
+        resEle.value += `\n${value}`;
+    }
+
+    function debounce(fn, delay = 1000) {
+        let timer = null;
+        return (...args) => {
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+            timer = setTimeout(() => {
+                fn.apply(this, args);
+            }, delay);
+        }
+    }
+
+    const outputRes = debounce(changeOutputVal, 1000);
+    inputEle.addEventListener("input", (eve) => {
+        outputRes(eve.target.value);
+    });
+
+</script>
+</html>
